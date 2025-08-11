@@ -11,6 +11,8 @@
 #include<dirent.h>
 #include<sys/stat.h>
 #include<time.h>
+#include<pwd.h>
+#include<grp.h>
 
 #define BUFFER 1000
 int main()
@@ -36,11 +38,16 @@ int main()
 	{
 		printf("%s\t", list->d_name);
 		stat(list->d_name, &file_stat);
-		printf("\t%jd ", file_stat.st_uid);
-		printf("\t%jd ", file_stat.st_gid);
-		printf("\t%jd ", file_stat.st_size);
-		time_t mod_time = file_stat.st_mtime;
 
+		struct passwd *pw = getpwuid(file_stat.st_uid);
+		printf("\t%s ",pw->pw_name);
+		
+		struct group *gr = getgrgid(file_stat.st_gid);
+		printf("\t%s ", gr->gr_name);
+
+		printf("\t%jd ", file_stat.st_size);
+		
+		time_t mod_time = file_stat.st_mtime;
 		printf("\t%s\n", ctime(&mod_time));
 
 
