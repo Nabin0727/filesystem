@@ -9,6 +9,8 @@
 #include<unistd.h>
 #include<stdlib.h>
 #include<dirent.h>
+#include<sys/stat.h>
+#include<time.h>
 
 #define BUFFER 1000
 int main()
@@ -28,11 +30,22 @@ int main()
 	DIR *dir_list = opendir(dir_name);
 
 	struct dirent *list;
-
+	
+	struct stat file_stat;
 	while((list=readdir(dir_list) )!= NULL)
 	{
-		printf("%s\n ", list->d_name);
+		printf("%s\t", list->d_name);
+		stat(list->d_name, &file_stat);
+		printf("\t%jd ", file_stat.st_uid);
+		printf("\t%jd ", file_stat.st_gid);
+		printf("\t%jd ", file_stat.st_size);
+		time_t mod_time = file_stat.st_mtime;
 
+		printf("\t%s\n", ctime(&mod_time));
+
+
+
+	
 	}
 
 	return 0;
