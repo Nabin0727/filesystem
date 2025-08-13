@@ -15,6 +15,10 @@
 #include<grp.h>
 
 #define BUFFER 1000
+// get current working dirctory
+void get_currentdir(){
+
+}
 
 // getting file type
 char *getfile_type(mode_t mode)
