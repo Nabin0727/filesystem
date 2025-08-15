@@ -36,11 +36,6 @@ void get_current_dir(char **dir_name, size_t dir_size){
 	}
 }
 
-// reading opening directory
-void get_dir_all(){
-
-}
-
 // getting file type
 char *getfile_type(mode_t mode)
 {
@@ -65,17 +60,12 @@ char *getfile_type(mode_t mode)
 	return "?";
 }
 
-// main function
-int main()
-{
-	char *dir_name = NULL;
-	get_current_dir(&dir_name, BUFFER);
 
-	// print the dir name!
-	puts(dir_name);
-
+// reading opening directory
+void get_dir_all(char *dir_name){
+	
 	DIR *dir_list = opendir(dir_name);
-
+	
 	struct dirent *list;
 	
 	struct stat file_stat;
@@ -105,9 +95,33 @@ int main()
 
 		printf("%s\t", list->d_name);
 
-
-	
 	}
 
+}
+
+// main function
+int main()
+{
+	char *dir_name = NULL;
+	get_current_dir(&dir_name, BUFFER);
+
+	// print the dir name!
+	
+	puts(dir_name);
+	
+	get_dir_all(dir_name);
+	
+	while(1)
+	{
+		puts(dir_name);
+		printf(" $ ");
+		char *input = NULL;
+		size_t buffsize = 0;
+		getline(&input, &buffsize, stdin);
+		
+		printf("\n %d \n", buffsize);
+		if(input == NULL)
+			exit(1);
+	}
 	return 0;
 }
