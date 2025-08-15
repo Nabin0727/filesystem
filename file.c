@@ -16,8 +16,23 @@
 
 #define BUFFER 1000
 // get current working dirctory
-void get_currentdir(){
+void get_current_dir(char **dir_name, size_t dir_size){
+	
+	// memory allocation dynamic
+	*dir_name = (char*) malloc(dir_size);
 
+	if(*dir_name == NULL)
+	{
+		perror("Memory allocation failed\n");
+		exit(1);
+	}
+
+	if(getcwd(*dir_name, dir_size) == NULL)
+	{
+		perror("getcwd failed!");
+		free(dir_name);
+		exit(1);
+	}
 }
 
 // getting file type
@@ -46,16 +61,9 @@ char *getfile_type(mode_t mode)
 
 int main()
 {
-	char *dir_name;
-	size_t dir_size = BUFFER;
+	char *dir_name = NULL;
+	get_current_dir(&dir_name, BUFFER);
 
-	dir_name = (char *) malloc(dir_size);
-
-	if(getcwd(dir_name, dir_size) == NULL)
-	{
-		perror("get cwd failed");
-		exit(1);
-	}
 	puts(dir_name);
 
 	DIR *dir_list = opendir(dir_name);
