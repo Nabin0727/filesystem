@@ -15,6 +15,7 @@
 #include<grp.h>
 
 #define BUFFER 1000
+
 // get current working dirctory
 void get_current_dir(char **dir_name, size_t dir_size){
 	
@@ -33,6 +34,11 @@ void get_current_dir(char **dir_name, size_t dir_size){
 		free(dir_name);
 		exit(1);
 	}
+}
+
+// reading opening directory
+void get_dir_all(){
+
 }
 
 // getting file type
@@ -59,11 +65,13 @@ char *getfile_type(mode_t mode)
 	return "?";
 }
 
+// main function
 int main()
 {
 	char *dir_name = NULL;
 	get_current_dir(&dir_name, BUFFER);
 
+	// print the dir name!
 	puts(dir_name);
 
 	DIR *dir_list = opendir(dir_name);
